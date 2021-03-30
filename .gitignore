@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+cidsystem/venv/
+cidsystem/resources.txt
+cidsystem/.idea
+cidsystem/_resources
