@@ -1,0 +1,32 @@
+{% extends "base.html" %} {% block content %}
+<section>
+  <article class="main_api">
+
+    <div class="main_api_image">
+      <img src="{{url_for('static', filename='images/cid-api-image.png')}}">
+    </div>
+    <div class="main_api_headline">
+      <div class="api_headline">
+        <h1>Integração: Recomendação de CIDs</h1>
+        <h3>Você poderá integrar um sistema completo de recomendação de CIDs ao seu processo atual, com poucos cliques, obtendo maior acurácia e agilidade no registro dos dados de seus pacientes</h3>
+        <p><span class="api_headline_doc">Documentação da API</span></p>
+      </div>
+  </article>
+  
+</section>
+
+<article class="api_contact">
+    <header class="api_contact_header">
+      <p class="icon-send"><span class="api_contact_header_title">Entre em Contato</span>:</p>
+    </header>
+        <div>
+          <form class="api_form_contact">
+            <input type="text" name="contact-api-hospital" placeholder="Hospital que você representa:">
+            <input type="text" name="contact-api-name" placeholder="Seu nome:">
+            <input type="email" placeholder="Seu email:">
+            <input type="submit" value="Enviar">
+          </form>
+        </div> 
+</article>
+
+{% endblock content %}

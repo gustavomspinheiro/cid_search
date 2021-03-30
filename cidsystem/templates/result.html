@@ -1,0 +1,43 @@
+{% extends "base.html" %} {% block content %}
+<header class="result_header">
+  <h2><span></span>Recomendação</h2>
+</header>
+
+<article class="result">
+  {% if cid%}
+  <div class="result_desc">
+    <h2>{{cid['code']}}</h2>
+    <p><b>{{cid['desc']}}</b></p>
+  </div>
+  <h4>Esse resultado foi útil para você?</h4>
+  <form method="post" action="/collect-feedback">
+    <input type="text" name="case_description" value="{{case_desc}}" hidden />
+    <input type="text" name="cid" value="{{cid['code']}}" hidden />
+    <input id="aux_feedback" type="text" name="aux_feedback" value="" hidden />
+
+    <input
+      id="result_feedback_positive"
+      name="result_feedback_positive"
+      type="submit"
+      value="Sim"
+      class="icon-thumbs-up result_feedback_button"
+    />
+
+    <input
+      id="result_feedback_negative"
+      name="result_feedback_negative"
+      type="submit"
+      value="Não"
+      class="icon-thumbs-down result_feedback_button"
+    />
+  </form>
+
+  {%else%}
+  <div class="result_desc">
+    <h2>Ops!</h2>
+    <p><b>Não foram encontrados resultados!</b></p>
+  </div>
+  {%endif%}
+</article>
+
+{% endblock content %}

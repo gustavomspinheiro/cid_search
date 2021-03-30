@@ -1,0 +1,41 @@
+{% extends "base.html" %} {% block content %}
+<article class="main_search_text">
+  <header class="main_search_text_header">
+    <h1><span></span>Buscar opções de Cids:</h1>
+  </header>
+
+  <form class="main_search_text_form" method="post" action="/busca-cid">
+    <input type="text" placeholder="Digite aqui..." name="search_text" />
+    <input type="submit" value="Buscar" class="button" />
+  </form>
+</article>
+
+<article class="result">
+  {% if search%} {% if cids.items%}
+  <div class="result_desc">
+    {%for cid in cids.items%}
+    <p><b>{{cid}}</b></p>
+    {%endfor%}
+  </div>
+  <article>
+    {%for page in cids.iter_pages(left_edge=5, right_edge=5, left_current=2,
+    right_current=2)%} {%if page%}
+    <div class="result_pagination_wrap">
+      <a
+        href="{{url_for('searchTextRes', search=search, page_num=page)}}"
+        class="result_pagination_link"
+        >{{page}}</a
+      >
+    </div>
+
+    {%else%} ... {%endif%} {%endfor%}
+  </article>
+  {%else%}
+
+  <div class="result_desc">
+    <h2>Ops!</h2>
+    <p><b>Não foram encontrados resultados!</b></p>
+  </div>
+  {%endif%} {%endif%}
+</article>
+{% endblock content %}

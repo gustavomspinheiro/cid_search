@@ -1,0 +1,28 @@
+{% extends "base.html" %} {% block content %}
+<header>
+  <h1>Será um administrador do sistema? Cadastre-se aqui</h1>
+</header>
+
+<article>
+  <form
+    method="POST"
+    action=""
+    name="admin_register_form"
+    enctype="multipart/form-data"
+  >
+    {{form.hidden_tag()}} {{form.adminName(class="registration_form_input")}}
+    {{form.adminSurname(class="registration_form_input")}}
+    {{form.adminEmail(class="registration_form_input")}}
+    {{form.adminPass(class="registration_form_input")}}
+    {{form.confirmPass(class="registration_form_input")}}
+    {{form.submit(class="registration_form_input")}} {%for field, errors in
+    form.errors.items()%}
+    <div style="border: 1px solid red" role="alert">
+      <h5>{{ form[field].label }} : {{''.join(errors)}}</h5>
+    </div>
+    {%endfor%}
+  </form>
+  <small>Possui cadastro? <a href="{{url_for('admin_login')}}">Login</a></small>
+</article>
+
+{% endblock content %}

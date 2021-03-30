@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <title>{{title}}</title>
+    <meta charset="UTF-8" />
+    <meta name="mit" content="2020-09-27T20:21:24-03:00+172110" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    {% assets "mincss" %}
+    <link rel="stylesheet" href="{{ ASSET_URL }}" />
+    {% endassets %}
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body>
+    <header class="main_header">
+      <div class="main_header_container">
+        <a class="main_header_logo" href="/">
+          <img
+            src="{{url_for('static', filename='images/cid-logo.png')}}"
+            alt="Logo do buscador de CID"
+            title="Logo do buscador de CID"
+          />
+        </a>
+        <nav class="main_header_nav">
+          <span
+            class="main_header_nav_mobile_menu icon-menu"
+            data-action="open_mobile"
+          ></span>
+          <div id="main_header_links" class="main_header_nav_links">
+            <ul class="main_header_nav_list">
+              <li>
+                <span class="main_header_nav_list_close icon-error"></span>
+              </li>
+              <li class="main_header_nav_list_item">
+                <span
+                  ><a
+                    class="main_header_nav_list_item_text"
+                    href="{{url_for('renderApi')}}"
+                    >API</a
+                  ></span
+                >
+              </li>
+            </ul>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      {% with messages = get_flashed_messages() %} {% if messages %}
+      <div class="flash_message">
+        {% for message in messages %}
+        <p>{{ message }}</p>
+        {% endfor %}
+      </div>
+      {% endif %} {% endwith %} {%block content %}{%endblock%}
+    </main>
+
+    <footer class="web_footer">
+      <section>
+        <article>
+          <header>
+            <h1 class="web_footer_title">Quer saber mais?</h1>
+          </header>
+        </article>
+        <div class="footer_container">
+          <article class="footer_container_items">
+            <header>
+              <h2>Termos & Políticas</h2>
+            </header>
+            <a href="#" class="footer_container_items_terms">Aviso Legal</a>
+            <a href="#" class="footer_container_items_terms"
+              >Política de Privacidade</a
+            >
+            <a href="#" class="footer_container_items_terms">Termos de Uso</a>
+          </article>
+
+          <article class="footer_container_items">
+            <header>
+              <h2>Contato</h2>
+            </header>
+            <p class="footer_container_items_about">Rua das Margaridas, 281</p>
+            <p class="icon-whatsapp footer_container_items_about">
+              <span class="footer_container_items_about_text">
+                (11) 99127-4564</span
+              >
+            </p>
+            <p class="icon-send footer_container_items_about">
+              <span> gustavo.pinheiro21@gmail.com</span>
+            </p>
+          </article>
+
+          <article class="footer_container_items">
+            <header>
+              <h2><h2>Redes Sociais</h2></h2>
+            </header>
+            <a href="#" class="icon-facebook footer_container_items_social"></a>
+            <a
+              href="#"
+              class="icon-instagram footer_container_items_social"
+            ></a>
+            <a href="#" class="icon-youtube footer_container_items_social"></a>
+          </article>
+        </div>
+      </section>
+    </footer>
+
+    <article class="web_copyright">
+      <span>© Todos os direitos reservados 2020</span>
+    </article>
+
+    {% assets "minjs" %}
+    <script type="text/javascript" src="{{ ASSET_URL }}"></script>
+    {% endassets %}
+  </body>
+</html>

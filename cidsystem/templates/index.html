@@ -1,0 +1,153 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="main_container">
+    <article class="main_modal">
+        <div class="main_modal_search">
+            <header class="main_modal_search_title">
+              <h1 class="icon-info">Descreva o caso do paciente</h1>
+            </header>
+            <form
+              autocomplete="off"
+              method="post"
+              action="/search-recom"
+              class="main_modal_search_form"
+            >
+              <input name="case_desc" type="text" placeholder="Digite aqui..." required/>
+              <p>Preview:</p>
+              <div class="main_modal_preview"></div>
+              <button
+                type="submit"
+                class="button button_success main_modal_search_button"
+              >
+                Buscar
+              </button>
+            </form>
+          </div>
+    </article>
+    
+    <section>
+        <div class="main_banner_headline">
+            <div class="main_headline">
+                <h1>O Melhor Buscador de CID do Mercado</h1>
+                <div class="main_separator"></div>
+                <ul>
+                    <li><span class="icon-arrow-right"></span>Encontre o CID mais adequado para a sua necessidade</li>
+                    <li><span class="icon-arrow-right"></span>Clique em "Buscar CID"</li>
+                    <li><span class="icon-arrow-right"></span>Descreva o caso do paciente</li>
+                    <li><span class="icon-arrow-right"></span>Avalie o resultado</li>
+                </ul>
+                <form class="main_search_text_form" method="post" action="/busca-cid">
+                    <input class="main_search_text_form_input"type="text" placeholder="Digite aqui..." name="search_text" />
+                    <input type="submit" value="Buscar" class="button"/>
+                </form>
+                <a  data-modal=".main_modal" class="main_headline_alternative_search" href=""><span>Ou clique aqui e teste nossa recomendação para você</span></a>
+
+
+            </div>
+
+            <div class="main_banner">
+                <div class="main_banner_images">
+                    <img src="{{url_for('static', filename='images/cid-banner-image.png')}}" class="main_banner_images_active" alt="Buscador de CID" title="Buscador de CID">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="main_highlights">
+            <header>
+                <h1><span class="icon-search"></span>Mais Pesquisados</h1>
+                <h2>Os CID´s mais buscados na sua categoria</h1>
+            </header>
+
+            <div class="main_highlights_session">
+                <h3 class="main_highlights_title">Pronto-Socorro</h3>
+                <span class="main_highlight_button icon-plus"></span>
+                <ul class="main_highlights_list">
+                    <li><span>Número: </span><span>Lorem ipsum</span></li>
+                    <li><span>Número: </span><span>Lorem ipsum</span></li>
+                    <li><span>Número: </span><span>Lorem ipsum</span></li>
+                </ul>
+            </div>
+
+            <div class="main_highlights_session">
+                <h3 class="main_highlights_title">Cardiologia</h3>
+                <span class="main_highlight_button icon-plus"></span>
+                <ul id="test" class="main_highlights_list">
+                    <li><span>Número: </span><span>Lorem ipsum</span></li>
+                    <li><span>Número: </span><span>Lorem ipsum</span></li>
+                    <li><span>Número: </span><span>Lorem ipsum</span></li>
+                </ul>
+            </div>
+
+            <div class="main_highlights_session">
+                <h3 class="main_highlights_title">Clínica</h3>
+                <span class="main_highlight_button icon-plus"></span>
+                <ul class="main_highlights_list">
+                    <li><span>Número: </span><span>Lorem ipsum</span></li>
+                    <li><span>Número: </span><span>Lorem ipsum</span></li>
+                    <li><span>Número: </span><span>Lorem ipsum</span></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section class="main_benefits">
+        <article>
+            <header>
+                <h1 class="main_benefits_title">Benefícios do Buscador de CID´s</h1>
+            </header>
+        </article>
+
+        <article class="main_benefits_category">
+            <header>
+                <h2 class="main_benefits_category_title">Hospitais</h2>
+                <p>• Acuracidade de informações históricas sobre pacientes</p>
+                <p>• Suporte a profissionais de pesquisa</p>
+            </header>
+
+            <img class="main_benefits_category_image" src="{{url_for('static', filename='images/hospital-benefits-cid-search.png')}}">
+
+        </article>
+
+        <article class="main_benefits_category">
+
+            <img class="main_benefits_category_image" src="{{url_for('static', filename='images/researcher-benefits-cid-search.png')}}">
+
+            <header class="align_text_right">
+                <h2 class="main_benefits_category_title">Pesquisadores</h2>
+                <p>• Agilidade na condução de análise de dados para pesquisas</p>
+                <p>• Assertividade de conclusões geradas a partir de dados coletados</p>
+                <p>• Confiabilidade de artigos publicados</p>
+            </header>
+
+        </article>
+
+        <article class="main_benefits_category">
+            <header>
+                <h2 class="main_benefits_category_title">Médicos</h2>
+                <p>• Agilidade no preenchimento de informações sobre o paciente</p>
+            </header>
+
+            <img class="main_benefits_category_image" src="{{url_for('static', filename='images/doctor-benefits-cid-search.png')}}">
+        </article>
+
+    </section>
+
+    <section>
+        <article class="main_call_action">
+            <header>
+                <h1 class="main_call_action_title">O que está esperando?</h1>
+            </header>
+            <p class="main_call_action_subtitle">Integre o seu sistema com nossa tecnologia para aprimorar seus dados</p>
+            <p><a class="main_call_action_button button button_success">QUERO INTEGRAR</a></p>
+        </article>
+    </section>
+</div>
+{% endblock content %}
+
+
+
+
+

@@ -1,0 +1,17 @@
+{% extends "base.html" %} {% block content %}
+<header>
+  <h1>Será um administrador do sistema? Cadastre-se aqui</h1>
+</header>
+
+<article>
+  <form method="post" action="{{url_for('login')}}" name="admin_register_form">
+    {{form.hidden_tag()}} {{form.adminEmail(class="registration_form_input")}}
+    {{form.adminPass(class="registration_form_input")}}
+    {{form.remember.label(class="registration_form_label")}}
+    {{form.remember(class="registration_form_input")}}
+    {{form.submit(class="registration_form_input")}}
+  </form>
+  <small>Esqueceu sua senha? <a href="#">Clique Aqui</a></small>
+</article>
+
+{% endblock content %}

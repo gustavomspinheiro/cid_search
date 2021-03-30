@@ -1,0 +1,177 @@
+*{
+    font-family: 'Open Sans', sans-serif;
+    font-size: 1em;
+    box-sizing: border-box;
+}
+
+:root{
+    --round: 10px;
+    --round_light: 5px;
+    --round_dark: 15px;
+
+    --gray: #737373;
+    --gray_light: #f2f2f2;
+    --gray_dark: #404040;
+
+    --green: #00cc99;
+    --green_light: #00e68a;
+    --green_dark: #008060;
+
+    --blue:#0073e6;
+    --blue_light:#4da6ff;
+    --blue_dark:#003366;
+
+    --yellow:#ffd11a;
+    --yellow_light:#ffe680;
+    --yellow_dark:#e6b800;
+
+    --red:#ff6666;
+    --red_light:#ff9999;
+    --red_dark:#ff3333;
+}
+
+html, body{
+    margin:0;
+    padding:0;
+}
+
+.fixed{
+    position: fixed;
+    width:100%;
+    top:0;
+    left:0;
+}
+
+/******************ICONS******************/
+
+[class^="icon"]{
+    margin-right: 5px;
+}
+
+.icon-error{
+    border:none;
+    color: var(--red_dark);
+    font-size: 1.3em;
+}
+
+.icon-thumbs-up{
+    font-weight:bold;
+    color: var(--green);
+    margin: 0 10px;
+}
+
+.icon-thumbs-up:hover{
+    color: var(--green_dark);
+    cursor: pointer;
+    font-size: 1.1em;
+}
+
+.icon-thumbs-down:hover{
+    color: var(--red_dark);
+    cursor: pointer;
+    font-size: 1.1em;
+}
+
+.icon-thumbs-down{
+    font-weight:bold;
+    color: var(--red);
+    margin: 0 10px;
+}
+
+
+/******************END ICONS******************/
+
+
+
+/******************LIST ITEM******************/
+
+li{
+    list-style: none;
+}
+
+/******************END LIST ITEM******************/
+
+
+/******************BUTTON******************/
+
+.button{
+    background-color: var(--gray_light);
+    padding: 5px 10px;
+    border:1px solid var(--gray);
+    border-radius: var(--round_light);
+    font-weight: bold;
+    cursor: pointer;
+    color: var(--gray_dark);
+    display:block;
+}
+
+.button:hover{
+    background-color: var(--gray_dark);
+    color: #fff;
+    cursor:pointer;
+}
+
+.button_success{
+    background-color: var(--green_light);
+    border:1px solid var(--green);
+    color: var(--green_dark);
+}
+
+.button_success:hover{
+    background-color: var(--green_dark);
+    border:1px solid var(--green_dark);
+    color: #fff;
+}
+
+.button_info{
+    background-color: var(--blue_light);
+    border:1px solid var(--blue);
+    color: var(--blue_dark);
+}
+
+.button_info:hover{
+    background-color: var(--blue_dark);
+    border: 1px solid var(--blue_dark);
+    color:#fff;
+}
+
+.button_alert{
+    background-color: var(--yellow_light);
+    border:1px solid var(--yellow);
+    color: var(--yellow_dark);
+}
+
+.button_alert:hover{
+    background-color: var(--yellow_dark);
+    border: 1px solid var(--yellow_dark);
+    color:#fff;
+}
+
+.button_error{
+    background-color: var(--red_light);
+    border:1px solid var(--red);
+    color: var(--red_dark);
+}
+
+.button_error:hover{
+    background-color: var(--red_dark);
+    border: 1px solid var(--red_dark);
+    color:#fff;
+}
+
+/******************END BUTTON******************/
+
+
+/******************LINK******************/
+.link{
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.link:hover{
+    text-decoration: underline;
+}
+
+/******************END LINK******************/
+
+
