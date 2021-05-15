@@ -5,6 +5,7 @@
   </header>
 
   <form class="main_search_text_form" method="post" action="/busca-cid">
+    <input type="hidden" name="csrf_token" value="{{csrf_token()}}"/>
     <input type="text" placeholder="Digite aqui..." name="search_text" />
     <input type="submit" value="Buscar" class="button" />
   </form>
@@ -26,9 +27,13 @@
         class="result_pagination_link"
         >{{page}}</a
       >
+    </div>    
+    {%else%}...{%endif%}{%endfor%}
+    <div class="result_cta">
+      <a href="{{url_for('renderApi')}}"
+        >Gostaria de integrar ao seu hospital?</a
+      >
     </div>
-
-    {%else%} ... {%endif%} {%endfor%}
   </article>
   {%else%}
 

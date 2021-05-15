@@ -20,7 +20,7 @@ class Message():
         return self
 
     def render(self):
-        return f"<p class='message button button_{self.type}'>{self.text}</p>"
+        return f"<p class='message message_{self.type}'>{self.text}</p>"
     
 
     

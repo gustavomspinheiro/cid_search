@@ -188,11 +188,12 @@ body {
 
 .main_header_nav_list_item_text {
   padding: 2% 6%;
-  color: var(--green);
+  color: var(--blue_light);
+  text-decoration:none;
 }
 
  .main_header_nav_list_item_text:hover {
-    color: var(--green_dark);
+    color: var(--blue);
     font-weight: bold;
   }
 

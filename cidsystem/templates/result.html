@@ -1,16 +1,18 @@
 {% extends "base.html" %} {% block content %}
 <header class="result_header">
-  <h2><span></span>Recomendação</h2>
+  <h2><span>Recomendação</span></h2>
 </header>
 
 <article class="result">
-  {% if cid%}
+  {% if cid and f1_score >= target_score%}
   <div class="result_desc">
     <h2>{{cid['code']}}</h2>
     <p><b>{{cid['desc']}}</b></p>
   </div>
+  <div class="result_score">Grau de precisão: {{"{:.0%}".format(f1_score)}}</div>
   <h4>Esse resultado foi útil para você?</h4>
   <form method="post" action="/collect-feedback">
+    <input type="hidden" name="csrf_token" value="{{csrf_token()}}" />
     <input type="text" name="case_description" value="{{case_desc}}" hidden />
     <input type="text" name="cid" value="{{cid['code']}}" hidden />
     <input id="aux_feedback" type="text" name="aux_feedback" value="" hidden />
@@ -31,6 +33,16 @@
       class="icon-thumbs-down result_feedback_button"
     />
   </form>
+  {%elif cid and target_score > f1_score%}
+  <div class="result_desc">
+    <h2>Modelo em Construção!</h2>
+    <p>
+      <b
+        >Estamos aprimorando nosso modelo de recomendação para que possa te
+        sugerir CID´s com maior segurança :)</b
+      >
+    </p>
+  </div>
 
   {%else%}
   <div class="result_desc">

@@ -21,7 +21,7 @@ class Cid(db.Model, Model):
         self.desc = desc
     
     def __repr__(self):
-        return f"{self.code}: {self.desc}"
+        return f"{self.id}: {self.code}: {self.desc}"
 
     #*** PROPERTIES ***
     @property
@@ -40,26 +40,25 @@ class Cid(db.Model, Model):
 
     @classmethod
     def searchByText(cls, name, page_num):
-        nameRevised = '%{}%'.format(name)
-        result= cls.query.filter(cls.desc.ilike(nameRevised)).first()
-
-        if result:
-            resultRev = cls.query.filter(cls.desc.ilike(nameRevised)).paginate(per_page=4, page=page_num)
-            return resultRev
-        else:
-            tokenized = name.split()
-            spell = SpellChecker(language="pt")
-            correctWord = ''
+            nameRevised = '%{}%'.format(name)
+            check = cls.query.filter(cls.desc.ilike(nameRevised)).first()
+            if check:
+                resultRev = cls.query.filter(cls.desc.ilike(nameRevised)).paginate(per_page=4, page=page_num)
+                return resultRev
+            else:
+                tokenized = name.split()
+                spell = SpellChecker(language="pt")
+                correctWord = ''
         
-            for i in range(len(tokenized)):
-                size = len(spell.known([tokenized[i]]))
-                if size > 0:
-                    correctWord += f"{tokenized[i]}"
-                else:
-                    correctWord += f"{spell.correction(tokenized[i])}"
-            nameCorrected = '%{}%'.format(correctWord)
-            result = cls.query.filter(cls.desc.ilike(nameCorrected)).paginate(per_page=3, page=page_num)
-            return result
+                for i in range(len(tokenized)):
+                    size = len(spell.known([tokenized[i]]))
+                    if size > 0:
+                        correctWord += f"{tokenized[i]}"
+                    else:
+                        correctWord += f"{spell.correction(tokenized[i])}"
+                        nameCorrected = '%{}%'.format(correctWord)
+                        result = cls.query.filter(cls.desc.ilike(nameCorrected)).paginate(per_page=3, page=page_num)
+                        return result
     
     @classmethod
     def searchByCode(cls, cid_code):

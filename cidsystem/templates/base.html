@@ -5,6 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="mit" content="2020-09-27T20:21:24-03:00+172110" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="csrf-token" content="{{csrf_token()}}" />
 
     {% assets "mincss" %}
     <link rel="stylesheet" href="{{ ASSET_URL }}" />
@@ -52,10 +53,11 @@
     </header>
 
     <main>
-      {% with messages = get_flashed_messages() %} {% if messages %}
+      {% with messages = get_flashed_messages(with_categories=true) %} {% if
+      messages %}
       <div class="flash_message">
-        {% for message in messages %}
-        <p>{{ message }}</p>
+        {% for category, message in messages %}
+        <p class=" message message_{{category}}">{{ message }}</p>
         {% endfor %}
       </div>
       {% endif %} {% endwith %} {%block content %}{%endblock%}

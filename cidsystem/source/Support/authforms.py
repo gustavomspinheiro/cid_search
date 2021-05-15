@@ -11,7 +11,7 @@ class RegistrationForm(FlaskForm):
     adminSurname = StringField('Sobrenome', validators=[DataRequired(message='Campo requerido'), Length(min=3, max=30, message='O sobrenome precisa ter entre %(min)d e %(max)d caracteres')], render_kw={'placeholder': 'Sobrenome:'})
     adminEmail = StringField('Email', validators=[DataRequired(message='Campo requerido'), Email(message='O e-mail precisa ser válido')],render_kw={'placeholder': 'E-mail:'})
     adminPass = PasswordField('Senha', validators=[DataRequired(message='Campo requerido'), Length(min=6, max = 20, message='Erro. tente outra senha')], render_kw={'placeholder': 'Senha:'})
-    confirmPass = PasswordField('Confirme a Senha', validators=[DataRequired(message='Campo requerido'), EqualTo('adminPass', message='A confirmação de senha precisa ser igual a original')], render_kw={'placeholder': 'Confirmação da senha:'})
+    confirmPass = PasswordField('Confirme a Senha', validators=[DataRequired(message='Campo requerido'), EqualTo('adminPass', message='As duas senhas precisam ser iguais')], render_kw={'placeholder': 'Confirmação da senha:'})
     submit = SubmitField('Cadastrar')
 
     def validateByEmail(self, email):

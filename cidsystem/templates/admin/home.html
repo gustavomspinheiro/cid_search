@@ -1,9 +1,57 @@
-<h1>Área Logada</h1>
-{% with messages = get_flashed_messages() %} {% if messages %}
-      <div class="flash_message">
-        {% for message in messages %}
-        <p>{{ message }}</p>
-        {% endfor %}
-      </div>
-      {% endif %} {% endwith %} {%block content %}{%endblock%}
-<a href="{{url_for('logout')}}">Logout</a>
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <title>{{title}}</title>
+    <meta charset="UTF-8" />
+    <meta name="mit" content="2020-09-27T20:21:24-03:00+172110" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="csrf-token" content="{{csrf_token()}}" />
+
+    {% assets "mincss" %}
+    <link rel="stylesheet" href="{{ ASSET_URL }}" />
+    {% endassets %}
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <h1>Área Logada</h1>
+    <a href="{{url_for('logout')}}">Logout</a>
+    {% with messages = get_flashed_messages(with_categories=true) %} {% if messages %}
+    <div class="flash_message">
+      {% for category, message in messages %}
+      <p class="message message_{{category}}">{{ message }}</p>
+      {% endfor %}
+    </div>
+    {% endif %} {% endwith %}
+    <form method="POST" action="{{url_for('retrainModel')}}">
+      <input type="hidden" name="csrf_token" value="{{csrf_token()}}" />
+      <input type="submit" class="button" value="Feedback no Modelo" />
+    </form>
+
+    <form method="POST" action="{{url_for('updateMetrics')}}">
+      <input type="hidden" name="csrf_token" value="{{csrf_token()}}" />
+      <input type="submit" class="button" value="Atualizar métricas" />
+    </form>
+    {%if customersToBeApproved%} 
+    <header>
+      <h3>Clientes para Aprovação</h3>
+    </header>
+    {%for customer in customersToBeApproved%}
+    <div class="customer_approval">
+      <p>{{customer.email}}</p>
+      <form method="POST" action="{{url_for('approveCustomer')}}">
+        <input type="hidden" name="csrf_token" value="{{csrf_token()}}" />
+        <input type="hidden" name="customer_email" value="{{customer.email}}" />
+        <input class="button button_info" type="submit" value="Approvar" />
+      </form>
+    </div>
+    {%endfor%} {%endif%} {%block content %}{%endblock%}
+
+    {% assets "minjs" %}
+    <script type="text/javascript" src="{{ ASSET_URL }}"></script>
+    {% endassets %}
+  </body>
+</html>

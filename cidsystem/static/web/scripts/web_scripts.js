@@ -1,5 +1,6 @@
 $(function () {
   var timeEffect = 1000;
+  var csrfToken = $("meta[name=csrf-token").attr("content");
 
   //GENERAL
   $(window).on("load", function (e) {
@@ -12,13 +13,16 @@ $(function () {
     var formData = $(this).serialize();
     $.ajax({
       url: form.attr("action"),
+      headers: {
+        "X-CSRFToken": csrfToken,
+      },
       type: "POST",
       data: formData,
       dataType: "JSON",
       beforeSend: function () {
         $("form")
           .find("button")
-          .after("<span class='load' style='color: red'>Carregando...</span>");
+          .after("<span class='load'>Carregando...</span>");
       },
       success: function (response) {
         if (response.redirect) {
@@ -48,6 +52,11 @@ $(function () {
       },
     });
   });
+
+  //set-up time out for flash messages to be displayed
+  setTimeout(() => {
+    $(".flash_message").remove();
+  }, 3000);
 
   //*** HOME PAGE ***
 
@@ -117,6 +126,9 @@ $(function () {
     }
   });
 
+  //PASS RESET MODAL
+  $(".link_password_reset").resetModal();
+
   //DISPLAY BUTTOM RETURN TO TOP
   $(window).on("scroll", function (e) {
     var positionTop = $(this).scrollTop();
@@ -137,14 +149,16 @@ const auxiliarFeedback = (id) => {
   auxInput.value = feedback;
 };
 
-document
-  .querySelector("#result_feedback_positive")
-  .addEventListener("click", (e) => {
+if (document.getElementById("result_feedback_positive")) {
+  const positive = document.getElementById("result_feedback_positive");
+
+  positive.addEventListener("click", (e) => {
     auxiliarFeedback(e.target.id);
   });
 
-document
-  .querySelector("#result_feedback_negative")
-  .addEventListener("click", (e) => {
+  const negative = document.getElementById("result_feedback_negative");
+
+  negative.addEventListener("click", (e) => {
     auxiliarFeedback(e.target.id);
   });
+}

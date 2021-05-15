@@ -13,6 +13,7 @@
               action="/search-recom"
               class="main_modal_search_form"
             >
+              <input type="hidden" name="csrf_token" value="{{csrf_token()}}"/>
               <input name="case_desc" type="text" placeholder="Digite aqui..." required/>
               <p>Preview:</p>
               <div class="main_modal_preview"></div>
@@ -42,7 +43,6 @@
                     <input type="submit" value="Buscar" class="button"/>
                 </form>
                 <a  data-modal=".main_modal" class="main_headline_alternative_search" href=""><span>Ou clique aqui e teste nossa recomendação para você</span></a>
-
 
             </div>
 
@@ -141,7 +141,7 @@
                 <h1 class="main_call_action_title">O que está esperando?</h1>
             </header>
             <p class="main_call_action_subtitle">Integre o seu sistema com nossa tecnologia para aprimorar seus dados</p>
-            <p><a class="main_call_action_button button button_success">QUERO INTEGRAR</a></p>
+            <p><a href="{{url_for('renderApi')}}" class="main_call_action_button button button_success">QUERO INTEGRAR</a></p>
         </article>
     </section>
 </div>

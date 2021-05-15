@@ -15,15 +15,18 @@
   
 </section>
 
-<article class="api_contact">
+<article class="wrap_contact">
     <header class="api_contact_header">
-      <p class="icon-send"><span class="api_contact_header_title">Entre em Contato</span>:</p>
+      <p class="icon-send"><span class="api_contact_header_title">Deseja Integrar?</span></p>
+      <p><span class="">Preencha os dados abaixo que entraremos em contato</span></p>
     </header>
         <div>
-          <form class="api_form_contact">
-            <input type="text" name="contact-api-hospital" placeholder="Hospital que você representa:">
-            <input type="text" name="contact-api-name" placeholder="Seu nome:">
-            <input type="email" placeholder="Seu email:">
+          <form class="form_contact" method="POST" action="{{url_for('postContact')}}">
+            <input type="hidden" name="csrf_token" value="{{csrf_token()}}"/>
+            <input type="text" name="contact_api_hospital" placeholder="Hospital que você representa:" required>
+            <input type="text" name="contact_api_name" placeholder="Seu nome:" required>
+            <input type="email" name="contact_api_email" placeholder="Seu email:" required>
+            <input type="text" name="contact_api_tel" placeholder="Seu telefone (XX) XXXXX-XXXX:" required>
             <input type="submit" value="Enviar">
           </form>
         </div> 

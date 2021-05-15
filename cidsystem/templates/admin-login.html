@@ -1,17 +1,52 @@
 {% extends "base.html" %} {% block content %}
 <header>
-  <h1>Será um administrador do sistema? Cadastre-se aqui</h1>
+  <h1 class="title_center_margin">
+    Informe seu e-mail e senha cadastrados
+  </h1>
 </header>
 
+<article class="pass_reset_modal">
+  <div class="main_modal_search">
+    <header class="main_modal_search_title">
+      <h3 class="icon-send">
+        Informe seu e-mail para enviarmos instruções de redefinição de senha
+      </h3>
+    </header>
+    <form
+      autocomplete="off"
+      method="post"
+      action="/admin/reset-senha"
+      class="main_modal_search_form"
+    >
+      <input type="hidden" name="csrf_token" value="{{csrf_token()}}" />
+      <input name="admin_email" type="text" placeholder="E-mail" required />
+      <button
+        type="submit"
+        class="button button_success main_modal_search_button"
+      >
+        Enviar
+      </button>
+    </form>
+  </div>
+</article>
+
 <article>
-  <form method="post" action="{{url_for('login')}}" name="admin_register_form">
-    {{form.hidden_tag()}} {{form.adminEmail(class="registration_form_input")}}
-    {{form.adminPass(class="registration_form_input")}}
-    {{form.remember.label(class="registration_form_label")}}
-    {{form.remember(class="registration_form_input")}}
-    {{form.submit(class="registration_form_input")}}
-  </form>
-  <small>Esqueceu sua senha? <a href="#">Clique Aqui</a></small>
+  <div class="wrap_contact">
+    <form
+      method="post"
+      action="{{url_for('login')}}"
+      class="form_contact"
+      name="admin_register_form"
+    >
+      <input type="hidden" name="csrf_token" value="{{csrf_token()}}" />
+      {{form.hidden_tag()}} {{form.adminEmail(class="registration_form_input")}}
+      {{form.adminPass(class="registration_form_input")}}
+      {{form.remember.label(class="registration_form_label")}}
+      {{form.remember(class="registration_form_input")}}
+      {{form.submit(class="registration_form_input")}}
+    </form>
+    <small>Esqueceu sua senha? <a data-modal=".pass_reset_modal" class="link_password_reset link" href="#">Clique Aqui</a></small>
+  </div>
 </article>
 
 {% endblock content %}
