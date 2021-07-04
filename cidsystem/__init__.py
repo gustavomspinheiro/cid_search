@@ -37,8 +37,6 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
 #initialize CSRF
 csrf = CSRFProtect(app)
 
-# Disable pre-request CSRF
-app.config['WTF_CSRF_CHECK_DEFAULT'] = False
 
 #configure flask limiter
 limiter = Limiter(app, key_func=get_remote_address, default_limits=["2 per second"])
@@ -51,6 +49,9 @@ bcrypt = Bcrypt(app)
 
 #initialize database
 db.init_app(app)
+
+# Disable pre-request CSRF
+app.config["WTF_CSRF_CHECK_DEFAULT"] = False
 
 #configure e-mail settings
 app.config["MAIL_SERVER"] = 'smtp.sendgrid.net'

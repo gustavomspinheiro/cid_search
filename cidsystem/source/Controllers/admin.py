@@ -15,7 +15,7 @@ from cidsystem.source.Models.cid import Cid
 @login_required
 def adminHome():
     customersToBeApproved = Customer.findCustomerToApprove()
-    return render_template('admin/home.html', customersToBeApproved=customersToBeApproved)
+    return render_template('admin/home.html', customersToBeApproved=customersToBeApproved, title="Área Administrativa - Buscador de CID´s", description="Área administrativa do sistema de buscas inteligentes de CID´s. Visualize métricas, aprove clientes e melhore seu modelo de predição, com poucos cliques")
 
 #***PARTIAL TRAIN MODEL***#
 @app.route('/admin/feedback-modelo', methods=['GET', 'POST'])

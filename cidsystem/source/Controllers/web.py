@@ -5,7 +5,7 @@ from joblib import load
 
 import time
 
-from cidsystem import app, db, mail
+from cidsystem import app, db, mail, csrf
 from cidsystem.source.Boot.helpers import passHash, checkPass
 from cidsystem.source.Boot.config import *
 from cidsystem.source.Support.message import Message
@@ -21,27 +21,29 @@ from cidsystem.source.Models.feedback import Feedback
 #***INDEX RENDER***#
 @app.route('/', methods=['GET', 'POST'])
 def home():
-    return render_template('index.html', title=CONF_HOME_TITLE)
+    return render_template('index.html', title=CONF_HOME_TITLE, description=CONF_SYSTEM_DESC)
 
 #***SEARCH ROUTES (TEXT)***#
 @app.route('/busca-cid' , methods=['GET', 'POST'])
 def searchText():
     if request.method == 'POST':
+        csrf.protect()
         search = request.form["search_text"]
         if search:
             return jsonify({'redirect': url_for('searchTextRes', search=search, page_num=1)})
         else:
             return jsonify({'message': Message('Oops! Favor incluir o texto para busca').alert().render()})
-    return render_template('text-search.html', title='Busca de Cids') 
+    return render_template('text-search.html', title='Busca de Classificações Internacionais de Doenças - CID´s', description="Pesquisa a Classificação Internacional de Doenças (CID) mais adequada para o seu caso") 
 
 @app.route('/busca-cid-resultado/<search>/<page_num>', methods=['GET', 'POST'])
 def searchTextRes(search, page_num):
     cidsSearched = Cid.searchByText(search, int(page_num))
-    return render_template('text-search.html', title='Resultados da Busca', cids=cidsSearched, search=search) 
+    return render_template('text-search.html', title='Resultados da Busca de CID´s', cids=cidsSearched, search=search, description="Resultados da busca da Classificação Internacional de Doenças (CID) com base no nome fornecido") 
 
 #***SEARCH ROUTES (RECOMMENDATION)***#
 @app.route('/search-recom', methods = ['GET', 'POST'])
 def searchRecom():
+    csrf.protect()
     data = request.form["case_desc"]
     if data:
         session["case_desc"] = data 
@@ -70,17 +72,18 @@ def searchRecom():
         message = Message('Favor inserir a descrição para busca').info().render()
         return jsonify({'message': message})
 
-@app.route('/result')
+@app.route('/resultado-recomendacao')
 def result():
     cidRecommended = session.get("predicted")
     description = session.get("case_desc")
-    resultTitle = "Cids Recomendados"
+    resultTitle = "Classificações Internacionais de Doenças (CID) Recomendados"
     f1Score = load('cidsystem/persist/f1-score.joblib')
-    return render_template('result.html', title=resultTitle, cid=cidRecommended, case_desc=description, f1_score=f1Score, target_score=CONF_MODEL_F1_SCORE)
+    return render_template('result.html', title=resultTitle, cid=cidRecommended, case_desc=description, f1_score=f1Score, target_score=CONF_MODEL_F1_SCORE, description="Recomendação da Classificação Internacional de Doença (CID) com base no caso do paciente fornecido")
 
 #***FEEDBACK ROUTES***#
 @app.route('/collect-feedback', methods=["POST"])
 def collectFeedback():
+    csrf.protect()
     form = request.form
     code = form["cid"]
     caseDescription = form["case_description"]
@@ -102,6 +105,7 @@ def collectFeedback():
 #***ADMIN REGISTRATION ROUTES***#
 @app.route('/cadastro-admin', methods=['GET', 'POST'])
 def admin_register():
+    csrf.protect()
     regForm = RegistrationForm(request.form)
     if request.method == 'POST':
         if not regForm.validateByEmail(regForm.adminEmail.data):
@@ -121,18 +125,19 @@ def admin_register():
                 return jsonify({'reload': True})
     if current_user.is_authenticated:
         return render_template('admin/home.html')
-    return render_template('admin-register.html', title=CONF_REGISTER_TITLE, form=regForm)    
+    return render_template('admin-register.html', title=CONF_REGISTER_TITLE, form=regForm, description=CONF_REGISTER_DESCRIPTION, noIndex=True)    
     
 @app.route('/login-admin')
 def admin_login():
     loginForm = LoginForm()
     if current_user.is_authenticated:
         return render_template('admin/home.html')
-    return render_template('admin-login.html', title=CONF_LOGIN_TITLE, form=loginForm)
+    return render_template('admin-login.html', title=CONF_LOGIN_TITLE, form=loginForm, description=CONF_LOGIN_DESCRIPTION, noIndex=True)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
+        csrf.protect()
         logForm = LoginForm(request.form)
         if logForm.validate_on_submit():
             user = User.query.filter_by(email=logForm.adminEmail.data).first()
@@ -153,6 +158,7 @@ def logout():
 #***PASSWORD RESET ROUTES***#
 @app.route('/admin/reset-senha', methods=['POST'])
 def initAdminReset():
+    csrf.protect()
     email = request.form["admin_email"]
     emailBytes = email.encode('ascii')
     base64Bytes = base64.b64encode(emailBytes)
@@ -180,12 +186,13 @@ def resetPass(email, auxReset):
         checkUser = Customer.findByName(username)
 
     if checkUser:
-        return render_template('support/confirm-password-reset.html', title='Reset de Senha', user=checkUser.email)
+        return render_template('support/confirm-password-reset.html', title='Reset de Senha', user=checkUser.email, description="Redefinição de senha do buscador de Classificações Internacionais de Doenças (CID´s)", noIndex=True)
     else:
-        return render_template('error.html', title="Erro no sistema", reason="usuário não encontrado")
+        return render_template('error.html', title="Erro no sistema", reason="usuário não encontrado", description=CONF_ERROR_PAGE_DESCRIPTION, noIndex=True)
 
 @app.route('/processar-reset-senha', methods=['POST'])
 def processReset():
+    csrf.protect()
     username = request.form["pass_reset_email"]
     password = request.form["pass_reset_password"]
     confirmPass = request.form["pass_reset_confirm_password"]
@@ -218,10 +225,11 @@ def processReset():
 #***API PAGE ROUTES***#
 @app.route('/api-cid', methods=['GET'])
 def renderApi():
-    return render_template('api-cid.html')
+    return render_template('api-cid.html', title=CONF_API_PAGE_TITLE, description=CONF_API_PAGE_DESCRIPTION)
 
 @app.route('/api-integration-contact', methods=['POST'])
 def postContact():
+    csrf.protect()
     hospitalName = request.form["contact_api_hospital"]
     prospectName = request.form["contact_api_name"]
     prospectEmail = request.form["contact_api_email"]
@@ -236,7 +244,7 @@ def postContact():
 #***ERROR ROUTES***#
 @app.route('/error', methods=['GET'])
 def renderError():
-    return render_template('error.html', title="Erro no Sistema")
+    return render_template('error.html', title="Erro no Sistema", description=CONF_ERROR_PAGE_DESCRIPTION, noIndex=True)
     
     
 

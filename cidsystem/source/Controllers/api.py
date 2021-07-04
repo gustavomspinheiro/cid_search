@@ -14,18 +14,17 @@ from cidsystem.source.Support.mail import Email
 #create a user
 @app.route('/api/registrar-cliente', methods=['POST'])
 @limiter.limit("3 per day", error_message=ModelApi.requestLimitError("3", "dia"))
-@csrf.exempt
 def createCustomer():
     data = request.get_json()
     passSize = len(str(data["password"]))
     customer = Customer(data['email'], str(data['password']), admin=False)
 
     if passSize < CONF_PASS_MIN_LENGTH or passSize > CONF_PASS_MAX_LENGTH:
-        return ModelApi.apiCallback(customer.toJson(), 404, f"A senha precisa conter entre {CONF_PASS_MIN_LENGTH} e {CONF_PASS_MAX_LENGTH} caracteres")
+        return ModelApi.apiCallback(customer.toJson(), 400, f"A senha precisa conter entre {CONF_PASS_MIN_LENGTH} e {CONF_PASS_MAX_LENGTH} caracteres")
 
     customerExists = customer.findByName(customer.email)
     if customerExists:
-        return ModelApi.apiCallback(customer.toJson(), 404, 'Cliente já existe na base de dados :)')
+        return ModelApi.apiCallback(customer.toJson(), 400, 'Cliente já existe na base de dados :)')
 
     if customer:
         try:
@@ -37,10 +36,10 @@ def createCustomer():
 
 #reset a user password
 @app.route('/api/reset-senha', methods=['POST'])
-@limiter.limit("2 per day", error_message=ModelApi.requestLimitError("2", "dia"))
+@limiter.limit("20 per day", error_message=ModelApi.requestLimitError("2", "dia"))
 def initReset():
     data = request.get_json()
-    username = data["username"]
+    username = data["username"]      
     usernameBytes = username.encode('ascii')
     base64Bytes = base64.b64encode(usernameBytes)
     link = base64Bytes.decode('ascii')
@@ -52,7 +51,7 @@ def initReset():
         if bootstrap.sendMail(mail):
             return ModelApi.apiCallback({}, 200, 'Um e-mail com as instruções para redefinir sua senha foi enviado :)')
         return ModelApi.apiCallback({}, 500, 'Erro ao enviar o e-mail. Tente novamente mais tarde :/')
-    return ModelApi.apiCallback({}, 404, 'Cliente não foi encontrado. Favor tentar outro e-mail :)') 
+    return ModelApi.apiCallback({}, 400, 'Cliente não foi encontrado. Favor tentar outro e-mail :)') 
 
 #get the recommended Cid
 @app.route('/api/recomendar-cid', methods=['POST'])
